@@ -40,14 +40,17 @@ app.post('/api/testy/', (req, res) => {
                 // converting our data to json format using the sheet_to_json 
                 const results = XLSX.utils.sheet_to_json(workbook.Sheets[sheet_name_list[0]])
 
-                // store our json data into a .json file 
+                // spliting the filename into a array of the filename and its file type
                 JsonFileFirst = filename.split('.')
+                // placing our file name with the json extension on same array 
                 nameArr = [JsonFileFirst[0], 'json']
+                // joining the items in the mnameArr to form our file.json 
                 JsonFilename = nameArr.join('.')
+                // creating a path to the json file 
                 JsonFilePathname = { dir: 'uploads', base: `${JsonFilename}` }
                 JsonFilePath = path.format(JsonFilePathname)
 
-
+                // use the appendfile method to write data into our json file as well as create the file 
                 fs.appendFile(JsonFilePath, results, function (err) {
                     if (err) throw err;
                     console.log('saved')
