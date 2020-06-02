@@ -10,43 +10,30 @@ const path = require('path')
 
 
 app.get('/', (req, res) => {
+    // displaying our index page 
     res.sendFile(__dirname + '/index.html')
 });
 
-
-app.post('/', (req, res) => {
-    if (req.files) {
-        console.log(req.files)
-        var file = req.files.file
-        var filename = file.name
-        console.log(filename)
-
-        file.mv('./uploads/' + filename, function (err) {
-            if (err) {
-                res.send(err)
-            } else {
-                res.send("File uploaded")
-            }
-        })
-    }
-});
 app.post('/api/testy/', (req, res) => {
     if (req.files) {
-
-        // fetching the file from the req 
+        // checking the file from the req 
         console.log(req.files)
+        // fetching the file from the req object 
         var file = req.files.file
+        // getting the name of the file from the file object 
         var filename = file.name
         console.log(filename)
 
+        // moving the .xlsx file to the uploads directory  
         file.mv('./uploads/' + filename, function (err) {
             if (err) {
                 res.send(err)
             } else {
-                //    reading our .xlsx file 
+                // creating the path to our uploaded xlsx file
                 const xlsxPath = { dir: 'uploads',base:`${filename}`}
                 const pathTo = path.format(xlsxPath)
-                console.log(pathTo)
+                
+                // reading our xlsx file we have uploaded 
                 const workbook = XLSX.readFile(pathTo)
                 const sheet_name_list = workbook.SheetNames;
                 // converting our data to json format using the sheet_to_json 
@@ -55,6 +42,8 @@ app.post('/api/testy/', (req, res) => {
             }
         })
 
+    }else{
+        res.redirect('/')
     }
 });
 
