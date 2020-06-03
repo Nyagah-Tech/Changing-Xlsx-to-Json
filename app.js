@@ -7,6 +7,7 @@ const fs = require('fs')
 const app = express();
 app.use(express.json());
 app.use(upload())
+app.use('/upload',express.static('uploads'))
 
 
 
@@ -15,7 +16,7 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html')
 });
 
-app.post('/api/testy/', (req, res) => {
+app.post('/uploads/file/', (req, res) => {
     if (req.files) {
         // checking the file from the req 
         console.log(req.files)
@@ -55,8 +56,11 @@ app.post('/api/testy/', (req, res) => {
                     if (err) throw err;
                     console.log('saved')
                 })
-
-                res.status(200).send(results)
+                fs.writeFile(JsonFilePath,results, (err)=>{
+                    if (err) throw err;
+                })
+                const urlPath = `/upload/${JsonFilename}`
+                res.redirect(urlPath)
             }
         })
 
