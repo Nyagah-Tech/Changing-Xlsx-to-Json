@@ -45,7 +45,7 @@ app.post('/uploads/file/', (req, res) => {
                 JsonFileFirst = filename.split('.')
                 // placing our file name with the json extension on same array 
                 nameArr = [JsonFileFirst[0], 'json']
-                // joining the items in the mnameArr to form our file.json 
+                // joining the items in the nameArr to form our file.json 
                 JsonFilename = nameArr.join('.')
                 // creating a path to the json file 
                 JsonFilePathname = { dir: 'uploads', base: `${JsonFilename}` }
